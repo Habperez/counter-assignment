@@ -1,22 +1,40 @@
-// import necessary react testing library helpers here
-// import the Counter component here
+// Import necessary react testing library helpers
+import { render, screen, fireEvent } from "@testing-library/react";
+import "@testing-library/jest-dom"; // For extended matchers
+import Counter from "../components/Counter"; // Adjust the path based on your file structure
 
 beforeEach(() => {
-  // Render the Counter component here
-})
-
-test('renders counter message', () => {
-  // Complete the unit test below based on the objective in the line above
+  // Render the Counter component before each test
+  render(<Counter />);
 });
 
-test('should render initial count with value of 0', () => {
-  // Complete the unit test below based on the objective in the line above
+test("renders counter message", () => {
+  // Check if "Counter" text is on the screen
+  expect(screen.getByText(/Counter/i)).toBeInTheDocument();
 });
 
-test('clicking + increments the count', () => {
-  // Complete the unit test below based on the objective in the line above
+test("should render initial count with value of 0", () => {
+  // Make sure the initial count starts at 0
+  const countElement = screen.getByTestId("count");
+  expect(countElement.textContent).toBe("0");
 });
 
-test('clicking - decrements the count', () => {
-  // Complete the unit test below based on the objective in the line above
+test("clicking + increments the count", () => {
+  // Simulate a click on the + button
+  const incrementButton = screen.getByText("+");
+  fireEvent.click(incrementButton);
+
+  // Check if the count increased
+  const countElement = screen.getByTestId("count");
+  expect(countElement.textContent).toBe("1");
+});
+
+test("clicking - decrements the count", () => {
+  // Simulate a click on the - button
+  const decrementButton = screen.getByText("-");
+  fireEvent.click(decrementButton);
+
+  // Check if the count decreased
+  const countElement = screen.getByTestId("count");
+  expect(countElement.textContent).toBe("-1");
 });
